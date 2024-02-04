@@ -1,0 +1,154 @@
+{% extends 'lms/base.html'%}
+{% load static %}  
+
+{% block title %} {{ title }} {% endblock title %}
+
+{% block css  %}
+   {{ block.super }}
+    <link rel="stylesheet"  href="{% static 'lms/css/custom.css' %}" type="text/css" />
+	<script src="{% static 'lms/js/dashboard.js' %}"></script>   
+    
+{% endblock css %}
+
+
+{% block content %}
+
+
+
+	<div class="tab">
+		<button class="tablinks" onclick="openCity(event, 'book-requested')">Requested Book</button>
+		<button class="tablinks" onclick="openCity(event, 'book-return')">Return Book</button>
+	
+	</div>
+	
+	<div id="book-requested" class="tabcontent">
+
+		<table id="book-requested-dataTable" class="display" style="width:100%">
+			<thead>
+				<tr>
+					<th>Book ID</th>
+					<th>Book Title</th>
+					<th>User ID</th>
+					<th>Issue Datetime </th>
+					<th>Return Datetime</th>
+					<th>Is Return</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+
+	</div>
+	
+	<div id="book-return" class="tabcontent">
+
+		<table id="book-return-dataTable" class="display" style="width:100%">
+			<thead>
+				<tr>
+					<th>Book ID</th>
+					<th>Book Title</th>
+					<th>User ID</th>
+					<th>Issue Datetime </th>
+					<th>Return Datetime</th>
+					<th>Is Return</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+
+
+	</div>
+	
+	
+	<script>
+	function openCity(evt, cityName) {
+		var i, tabcontent, tablinks;
+		tabcontent = document.getElementsByClassName("tabcontent");
+		for (i = 0; i < tabcontent.length; i++) {
+		tabcontent[i].style.display = "none";
+		}
+		tablinks = document.getElementsByClassName("tablinks");
+		for (i = 0; i < tablinks.length; i++) {
+		tablinks[i].className = tablinks[i].className.replace(" active", "");
+		}
+		document.getElementById(cityName).style.display = "block";
+		evt.currentTarget.className += " active";
+	}
+
+	$(document).ready(function() {
+
+		var header = {
+			"Authorization": "Bearer " + localStorage.getItem("access_token")
+		}
+
+		$('#book-requested-dataTable').DataTable({
+			"ajax": {
+				"url": "http://localhost:8000/lms/user-book-request/",
+				"headers" : header, 
+				"dataSrc": ""
+			},
+			"columns": [
+			    { "data": "book" },
+				{ "data": "book_title" },
+				{ "data": "borrow_user" },
+				{ "data": "issue_datetime" },
+				{ "data": "return_datetime" },
+				{ "data": "is_return" }
+			]
+		});
+
+
+
+
+
+
+		$('#book-return-dataTable').DataTable({
+			"ajax": {
+				"url": "http://localhost:8000/lms/user-book-return/",
+				"headers" : header, 
+				"dataSrc": ""
+			},
+			"columns": [
+			    { "data": "book" },
+				{ "data": "book_title" },
+				{ "data": "borrow_user" },
+				{ "data": "issue_datetime" },
+				{ "data": "return_datetime" },
+				{ "data": "is_return" }
+			]
+		});
+
+		document.querySelector('.tablinks').click();
+
+
+
+
+
+
+
+
+
+
+	});
+
+
+
+
+
+
+
+
+
+
+	</script>
+	
+
+
+   
+
+
+
+    
+
+
+
+{% endblock content %}

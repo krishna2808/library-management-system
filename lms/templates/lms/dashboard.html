@@ -1,0 +1,35 @@
+{% extends 'lms/base.html'%}
+{% load static %}  
+
+{% block title %} {{ title }} {% endblock title %}
+
+{% block css  %}
+   {{ block.super }}
+    <link rel="stylesheet"  href="{% static 'lms/css/custom.css' %}" type="text/css" />
+	{% comment %} <script src="{% static 'lms/js/authentication.js' %}"></script>    {% endcomment %}
+	<script src="{% static 'lms/js/dashboard.js' %}"></script>   
+    
+{% endblock css %}
+
+{% block content %}
+   
+   
+
+
+
+   <div class=" product-Details border border-success p-2 mb-2">
+		<h3>Libraray Book </h3>
+		<hr/>
+		<div id="dashboard-book"class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+			{% comment %} <div id="dashboard-book"> </div>  {% endcomment %}
+		</div>
+
+
+   </div>
+
+
+    
+
+
+
+{% endblock content %}
