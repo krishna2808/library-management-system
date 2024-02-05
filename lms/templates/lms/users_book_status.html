@@ -28,7 +28,7 @@
 				<tr>
 					<th>Book ID</th>
 					<th>Book Title</th>
-					<th>User ID</th>
+					<th>Username</th>
 					<th>Issue Datetime </th>
 					<th>Return Datetime</th>
 					<th>Is Approved</th>
@@ -48,7 +48,7 @@
 				<tr>
 					<th>Book ID</th>
 					<th>Book Title</th>
-					<th>User ID</th>
+					<th>Username</th>
 					<th>Issue Datetime </th>
 					<th>Return Datetime</th>
 					<th>Is Approved</th>
@@ -88,7 +88,41 @@
 			"Authorization": "Bearer " + localStorage.getItem("access_token")
 		}
 
-		$('#select-dropdown-action').change(function () {
+
+
+
+		$(document).on('click', '.delete-button', function () {
+			var dataId = $(this).data('id');
+			debugger;
+		
+			$.ajax({
+				url: 'http://localhost:8000/lms/staff-user-book-request/', 
+				type: 'DELETE',
+				headers: header,
+				data: { book_borrower_id  : $(this).attr("book_borrower_id") },
+				dataType: 'json',
+				success: function (data) {
+					console.log('AJAX call successful:', data);
+				},
+				error: function (xhr, status, error) {
+					console.error('AJAX call failed:', status, error);
+				}
+			});
+		});
+
+
+
+
+
+
+
+
+
+
+
+
+
+		$(document).on('change', '.action-dropdown', function () {
 			var selectedValue = $(this).val();
 			debugger
 			payload = {
@@ -127,7 +161,7 @@
 			"columns": [
 			    { "data": "book" },
 				{ "data": "book_title" },
-				{ "data": "borrow_user" },
+				{ "data": "borrow_username" },
 				{ "data": "issue_datetime" },
 				{ "data": "return_datetime" },
 				{ "data": "is_approved" },
@@ -135,11 +169,11 @@
 				{
 					"data": 'is_return',
 					"render": function (data, type, row) {
-							var dropdownHtml = '<select  id="select-dropdown-action"  class="action-dropdown" book_borrower_id ="' + row.id + '">';
+							var dropdownHtml = '<select  class="action-dropdown" id="select-dropdown-action" book_borrower_id ="' + row.id + '">';
 								dropdownHtml += '<option value="true"' + (row.is_approved === true ? ' selected' : '') + '>Approve</option>';
 								dropdownHtml += '<option value="false"' + (row.is_approved === false ? ' selected' : '') + '>Pending</option>';
 								dropdownHtml += '</select>';
-						var deleteButtonHtml = '<button class="delete-button" id="delete-button-action" data-id="' + row.id + '">Delete</button>';
+						var deleteButtonHtml = '<button class="delete-button" id="delete-button-action" book_borrower_id="' + row.id + '">Delete</button>';
 		
 						return dropdownHtml + deleteButtonHtml;
 					}
@@ -160,7 +194,7 @@
 			"columns": [
 			    { "data": "book" },
 				{ "data": "book_title" },
-				{ "data": "borrow_user" },
+				{ "data": "borrow_username" },
 				{ "data": "issue_datetime" },
 				{ "data": "return_datetime" },
 				{ "data": "is_approved" },

@@ -31,7 +31,6 @@ function requestBook(book_id) {
 
         $('#addCardForm').submit(function (event) {
             event.preventDefault();
-            alert('Card added!');
             payload = {
 			    'book_id' : $("#book-id").val(),
 				"issue_datetime" : $("#book-issue-date").val(),

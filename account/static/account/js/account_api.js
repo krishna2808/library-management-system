@@ -15,6 +15,11 @@ $(document).ready(function() {
 			dataType: 'json',
 			success: function(data) {
 				console.log('AJAX call successful:', data);
+				$(".msg").show();
+				$("#sign-up-email").val("")
+                $("#sign-up-username").val("")
+				$("#sign-up-password").val("")
+
 			},
 			error: function(xhr, status, error) {
 				console.log(xhr)
