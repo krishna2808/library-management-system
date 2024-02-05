@@ -1,4 +1,4 @@
-{% extends 'lms/base.html'%}
+{% extends 'lms/base_staff.html'%}
 {% load static %}  
 
 {% block title %} {{ title }} {% endblock title %}
@@ -16,8 +16,8 @@
 
 
 	<div class="tab">
-		<button class="tablinks" onclick="openCity(event, 'book-requested')">Requested Book</button>
-		<button class="tablinks" onclick="openCity(event, 'book-return')">Return Book</button>
+		<button class="tablinks" onclick="openCity(event, 'book-requested')">Users Requested Book</button>
+		<button class="tablinks" onclick="openCity(event, 'book-return')">Users Return Book</button>
 	
 	</div>
 	
@@ -33,6 +33,7 @@
 					<th>Return Datetime</th>
 					<th>Is Approved</th>
 					<th>Is Return</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody></tbody>
@@ -62,6 +63,10 @@
 	
 	
 	<script>
+
+
+
+
 	function openCity(evt, cityName) {
 		var i, tabcontent, tablinks;
 		tabcontent = document.getElementsByClassName("tabcontent");
@@ -78,13 +83,44 @@
 
 	$(document).ready(function() {
 
+
 		var header = {
 			"Authorization": "Bearer " + localStorage.getItem("access_token")
 		}
 
+		$('#select-dropdown-action').change(function () {
+			var selectedValue = $(this).val();
+			debugger
+			payload = {
+				book_borrower_id  : $(this).attr("book_borrower_id"),
+				is_approved  : selectedValue
+			}
+
+			$.ajax({
+				url: 'http://localhost:8000/lms/staff-user-book-request/',
+				type: 'PATCH',
+				headers: header,
+				data : payload,
+				dataType: 'json',
+				success: function (data) {
+					console.log('AJAX call successful:', data);
+					book_data = data;
+				},
+				error: function (xhr, status, error) {
+					console.log(xhr);
+					window.location.href = window.location.origin + "/account/";
+					console.error('AJAX call failed:', status, error);
+				}
+			});
+
+	
+			
+	
+		});
+
 		$('#book-requested-dataTable').DataTable({
 			"ajax": {
-				"url": "http://localhost:8000/lms/user-book-request/",
+				"url": "http://localhost:8000/lms/staff-user-book-request/",
 				"headers" : header, 
 				"dataSrc": ""
 			},
@@ -95,18 +131,29 @@
 				{ "data": "issue_datetime" },
 				{ "data": "return_datetime" },
 				{ "data": "is_approved" },
-				{ "data": "is_return" }
+				{ "data": "is_return" },
+				{
+					"data": 'is_return',
+					"render": function (data, type, row) {
+							var dropdownHtml = '<select  id="select-dropdown-action"  class="action-dropdown" book_borrower_id ="' + row.id + '">';
+								dropdownHtml += '<option value="true"' + (row.is_approved === true ? ' selected' : '') + '>Approve</option>';
+								dropdownHtml += '<option value="false"' + (row.is_approved === false ? ' selected' : '') + '>Pending</option>';
+								dropdownHtml += '</select>';
+						var deleteButtonHtml = '<button class="delete-button" id="delete-button-action" data-id="' + row.id + '">Delete</button>';
+		
+						return dropdownHtml + deleteButtonHtml;
+					}
+				}
+
+
 			]
 		});
 
 
 
-
-
-
 		$('#book-return-dataTable').DataTable({
 			"ajax": {
-				"url": "http://localhost:8000/lms/user-book-return/",
+				"url": "http://localhost:8000/lms/staff-user-book-return/",
 				"headers" : header, 
 				"dataSrc": ""
 			},
@@ -117,8 +164,13 @@
 				{ "data": "issue_datetime" },
 				{ "data": "return_datetime" },
 				{ "data": "is_approved" },
-				{ "data": "is_return" }
+				{ "data": "is_return" },
+
+
+
 			]
+
+
 		});
 
 		document.querySelector('.tablinks').click();

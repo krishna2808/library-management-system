@@ -38,6 +38,7 @@ class BookBorrower(models.Model):
     borrow_user = models.ForeignKey(User, related_name= "book_borrower_user", on_delete = models.DO_NOTHING)
     issue_datetime = models.DateTimeField()
     return_datetime = models.DateTimeField()
+    is_approved = models.BooleanField(default = False)
     is_return = models.BooleanField(default = False)
     # amount_fine = models.ForeignKey(LibraryRule, related_name="library_rule_book", on_delete = models.DO_NOTHING)
     modified_datetime  = models.DateTimeField(auto_now = True)

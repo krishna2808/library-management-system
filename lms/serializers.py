@@ -14,5 +14,5 @@ class BookBorrowerSerializer(serializers.ModelSerializer):
     borrow_username = serializers.StringRelatedField(source="borrow_user.username", read_only=True)  
     class Meta:
         model = BookBorrower
-        fields = ("book_title", "book", "borrow_username", "borrow_user", "issue_datetime", "return_datetime", "is_return", "modified_datetime", "created_datetime")       
+        fields = ("id", "book_title", "book", "borrow_username", "borrow_user", "issue_datetime", "return_datetime", "is_approved", "is_return", "modified_datetime", "created_datetime")       
         # fields = ( "book",  "borrow_user", "issue_datetime", "return_datetime")       

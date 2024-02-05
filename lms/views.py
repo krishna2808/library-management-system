@@ -12,11 +12,16 @@ from copy import copy
 from datetime import datetime
 # Create your views here.
 def dashboard(request):
-    return render(request, "lms/dashboard.html")
+    if request.user.is_staff == True:
+        return render(request, "lms/staff_dashboard.html")
+    return render(request, "lms/user_dashboard.html")
 
 def book_borrow(request):
     return render(request, "lms/book_borrow.html")
-    
+
+def users_book_status(request):
+    return render(request, "lms/users_book_status.html")
+        
 
 class BookAPI(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
@@ -46,7 +51,7 @@ class BookAPI(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView)
         self.request.data["auther"] = self.get_user().id
         return BookSerializer
 
-class StaffUserBookBorrower(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
+class StaffUserBookRequest(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     queryset = BookBorrower.objects.all()
     serializer_class = BookBorrowerSerializer  
@@ -61,7 +66,7 @@ class StaffUserBookBorrower(generics.ListCreateAPIView, generics.RetrieveUpdateD
         return book_borrower_object
         
  
-class StaffUserBookReturnList(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
+class StaffUserBookReturn(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     queryset = BookBorrower.objects.all()
     serializer_class = BookBorrowerSerializer  
