@@ -12,6 +12,8 @@
 
            python3.10 -m venv env
 
+           source venv/bin/activate
+
 (2)  Clone project from github <br>
 
     git clone  https://github.com/krishna2808/library-management-system.git
