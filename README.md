@@ -9,17 +9,23 @@
 
    
 (1) Create virtual  environment. <br>
-           $ python3.10 -m venv env
+
+           python3.10 -m venv env
 
 (2)  Clone project from github <br>
-    $ git clone  https://github.com/krishna2808/library-management-system.git <br> <br>
-    you can install all packages from requirements.txt after activated python virtual environment. <br>
+
+    git clone  https://github.com/krishna2808/library-management-system.git
+    ##you can install all packages from requirements.txt after activated python virtual environment. 
+    
 	  cd library-management-system
-	  pip install -r requirements.txt <br>
-	  python manage.py runserver   <br > <br>
+   
+	  pip install -r requirements.txt 
+   
+	  python manage.py runserver   
 
 
-## User type  <br > <br>
+## User type 
+
    (1) Normal User: <br>
        Normal user can requested book and they can see requested book list as well as return book list in past.  <br > <br>
    (2) Staff User: <br>
