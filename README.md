@@ -20,9 +20,9 @@
 
 
 ## User type  <br > <br>
-   (1) Normal User:
+   (1) Normal User: <br>
        Normal user can requested book and they can see requested book list as well as return book list in past.  <br > <br>
-   (2) Staff User:
+   (2) Staff User: <br>
        Staff User can see all user book record such as user is return book and requested user for book and staff is required to approve requested book. <br > <br> 
       
 
